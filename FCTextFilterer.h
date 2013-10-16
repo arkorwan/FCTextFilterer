@@ -34,13 +34,7 @@
 
 @end
 
-//adopt this protocol to provide text items source
-@protocol FCTextFiltererDelegate <NSObject>
-
-//provide an NSArray of text items
--(NSArray *) reloadSource;
-
-@end
+@protocol FCTextFiltererDelegate;
 
 @interface FCTextFilterer : NSObject
 
@@ -59,3 +53,14 @@
 -(void) reload;
 
 @end
+
+//adopt this protocol to provide text items source
+@protocol FCTextFiltererDelegate <NSObject>
+
+//provide an NSArray of text items
+-(NSArray *) itemsForTextFilterer:(FCTextFilterer *) filterer;
+
+@end
+
+
+

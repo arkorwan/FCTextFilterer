@@ -34,7 +34,7 @@
 }
 
 
-- (id) init
+- (instancetype) init
 {
     if(self = [super init]){
         searchTextMap = [NSMutableDictionary new];
@@ -48,7 +48,7 @@
 
 -(void) reload
 {
-    allData = [self.delegate reloadSource];
+    allData = [self.delegate itemsForTextFilterer:self];
     [searchTextMap removeAllObjects];
     for(id<FCTextFiltererItemDelegate> item in allData){
         searchTextMap[[item key]] = [item searchText];
