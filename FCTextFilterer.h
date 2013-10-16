@@ -23,20 +23,39 @@
 
 #import <Foundation/Foundation.h>
 
+//text items must conform to this protocol
 @protocol FCTextFiltererItemDelegate <NSObject>
 
+//unique identifier
 -(id) key;
+
+//text to be used in filtering
 -(NSString *) searchText;
+
+@end
+
+//adopt this protocol to provide text items source
+@protocol FCTextFiltererDelegate <NSObject>
+
+//provide an NSArray of text items
+-(NSArray *) reloadSource;
 
 @end
 
 @interface FCTextFilterer : NSObject
 
+@property (strong, nonatomic) id<FCTextFiltererDelegate> delegate;
+
+//reprocess using current filter
 -(NSArray *) resultByReprocessFilter;
+
+//filter by the given string
 -(NSArray *) resultByFilterText:(NSString *) newFilter;
+
+//returns the current filter
 -(NSString *) currentFilter;
+
+//(re)load items into the filterer using delegate's reloadSource
 -(void) reload;
-//abstract
--(NSArray *) reloadSource;
 
 @end

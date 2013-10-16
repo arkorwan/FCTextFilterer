@@ -46,17 +46,9 @@
     return self;
 }
 
-//MUST override
--(NSArray *) reloadSource
-{
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                  userInfo:nil];
-}
-
 -(void) reload
 {
-    allData = [self reloadSource];
+    allData = [self.delegate reloadSource];
     [searchTextMap removeAllObjects];
     for(id<FCTextFiltererItemDelegate> item in allData){
         searchTextMap[[item key]] = [item searchText];
