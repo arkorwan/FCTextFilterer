@@ -31,6 +31,7 @@
     NSString *filterText;
     NSMutableDictionary *searchTextMap;
     NSMutableDictionary *searchResultStack;
+    BOOL shouldReload;
 }
 
 
@@ -41,7 +42,7 @@
         searchResultStack = [NSMutableDictionary new];
         [self reload];
         filterText = @"";
-
+        BOOL shouldReload = YES;
     }
     return self;
 }
@@ -53,11 +54,18 @@
     for(id<FCTextFiltererItemDelegate> item in allData){
         searchTextMap[[item key]] = [item searchText];
     }
+    [searchResultStack removeAllObjects];
+    shouldReload = NO;
 }
 
 -(void) loadIfNeeded
 {
-    if(allData == nil) [self reload];
+    if(shouldReload) [self reload];
+}
+
+-(void) shouldReloadItems
+{
+    shouldReload = YES;
 }
 
 -(NSString *) currentFilter
@@ -124,7 +132,7 @@
     } else if ([newFilter hasPrefix:filterText]){
         //Case 4: new filter is by appending to old filter
         NSMutableArray *searchResult = [NSMutableArray new];
-        for(id<FCTextFiltererItemDelegate> item in allData){
+        for(id<FCTextFiltererItemDelegate> item in [self resultByFilterText:filterText]){
             //use only last word
             NSArray *words = [newFilter splitByWhitespace];
             NSString *lastWord = [words lastObject];

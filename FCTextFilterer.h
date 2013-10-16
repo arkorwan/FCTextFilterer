@@ -49,6 +49,9 @@
 //returns the current filter
 -(NSString *) currentFilter;
 
+//force reload items
+-(void) shouldReloadItems;
+
 @end
 
 //adopt this protocol to provide text items source
@@ -58,6 +61,3 @@
 -(NSArray *) itemsForTextFilterer:(FCTextFilterer *) filterer;
 
 @end
-
-
-
