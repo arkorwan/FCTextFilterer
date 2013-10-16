@@ -55,6 +55,11 @@
     }
 }
 
+-(void) loadIfNeeded
+{
+    if(allData == nil) [self reload];
+}
+
 -(NSString *) currentFilter
 {
     return filterText;
@@ -62,6 +67,7 @@
 
 -(NSArray *) resultByReprocessFilter
 {
+	[self loadIfNeeded];
     //clear cache here
     [searchResultStack removeAllObjects];
     return [self resultByProcessFilterFromScratch:filterText];
@@ -96,6 +102,7 @@
 
 -(NSArray *) resultByFilterText:(NSString *) newFilter
 {
+	[self loadIfNeeded];
     newFilter = [[newFilter lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     NSArray *cachedResult = [searchResultStack objectForKey:newFilter];

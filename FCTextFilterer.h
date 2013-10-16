@@ -49,9 +49,6 @@
 //returns the current filter
 -(NSString *) currentFilter;
 
-//(re)load items into the filterer using delegate's reloadSource
--(void) reload;
-
 @end
 
 //adopt this protocol to provide text items source
