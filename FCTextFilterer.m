@@ -42,7 +42,7 @@
         searchResultStack = [NSMutableDictionary new];
         [self reload];
         filterText = @"";
-        BOOL shouldReload = YES;
+        shouldReload = YES;
     }
     return self;
 }
@@ -129,7 +129,7 @@
         //Case 3: first time filter (previous filter was empty)
         result = [self resultByProcessFilterFromScratch:newFilter];
         
-    } else if ([newFilter hasPrefix:filterText]){
+    } else if ([newFilter hasPrefix:filterText] && newFilter.length > filterText.length){
         //Case 4: new filter is by appending to old filter
         NSMutableArray *searchResult = [NSMutableArray new];
         for(id<FCTextFiltererItemDelegate> item in [self resultByFilterText:filterText]){
