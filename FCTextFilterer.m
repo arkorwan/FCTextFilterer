@@ -4,17 +4,17 @@
 // Created by worakarn isaratham on 10/9/13.
 //
 // Copyright (c) 2013 Worakarn Isaratham. All rights reserved.
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy of
 // this software and associated documentation files (the "Software"), to deal in
 // the Software without restriction, including without limitation the rights to
 // use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
 // the Software, and to permit persons to whom the Software is furnished to do so,
 // subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
 // FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -26,7 +26,7 @@
 #import "NSString+StringProcessing.h"
 
 @implementation FCTextFilterer{
-
+    
     NSArray *allData;
     NSString *filterText;
     NSMutableDictionary *searchTextMap;
@@ -40,6 +40,7 @@
     if(self = [super init]){
         searchTextMap = [NSMutableDictionary new];
         searchResultStack = [NSMutableDictionary new];
+        self.comparisonMask = NSCaseInsensitiveSearch;
         [self reload];
         filterText = @"";
         shouldReload = YES;
@@ -83,7 +84,7 @@
 
 -(BOOL) isItem:(id<FCTextFiltererItemDelegate>) item containsString:(NSString *) filter
 {
-    return [searchTextMap[[item key]] containsStringInsensitive:filter];
+    return [searchTextMap[[item key]] containsString:filter options:self.comparisonMask];
 }
 
 -(NSArray *) resultByProcessFilterFromScratch:(NSString *) filter
@@ -110,6 +111,12 @@
 
 -(NSArray *) resultByFilterText:(NSString *) newFilter
 {
+    return [self resultByFilterText:newFilter saveFilter:YES];
+}
+
+
+-(NSArray *) resultByFilterText:(NSString *) newFilter saveFilter:(BOOL) save
+{
 	[self loadIfNeeded];
     newFilter = [[newFilter lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
@@ -132,7 +139,7 @@
     } else if ([newFilter hasPrefix:filterText] && newFilter.length > filterText.length){
         //Case 4: new filter is by appending to old filter
         NSMutableArray *searchResult = [NSMutableArray new];
-        for(id<FCTextFiltererItemDelegate> item in [self resultByFilterText:filterText]){
+        for(id<FCTextFiltererItemDelegate> item in [self resultByFilterText:filterText saveFilter:NO]){
             //use only last word
             NSArray *words = [newFilter splitByWhitespace];
             NSString *lastWord = [words lastObject];
@@ -147,7 +154,9 @@
         result = [self resultByProcessFilterFromScratch:newFilter];
     }
     
-    filterText = newFilter;
+    if(save){
+        filterText = newFilter;
+    }
     
     return result;
 }

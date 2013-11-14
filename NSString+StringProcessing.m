@@ -9,16 +9,16 @@
 
 @implementation NSString (StringProcessing)
 
-- (BOOL) containsString: (NSString*) substring
+- (BOOL) containsString: (NSString*) substring options:(NSStringCompareOptions) mask
 {
-    NSRange range = [self rangeOfString : substring];
+    NSRange range = [self rangeOfString : substring options:mask];
     BOOL found = ( range.location != NSNotFound );
     return found;
 }
 
-- (BOOL) containsStringInsensitive:(NSString *)substring
+- (BOOL) containsString:(NSString *)substring
 {
-    return [[self lowercaseString] containsString:[substring lowercaseString]];
+    return [self containsString:substring options: NSCaseInsensitiveSearch];
 }
 
 - (NSArray *) splitByWhitespace

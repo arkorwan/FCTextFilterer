@@ -10,7 +10,7 @@
 @interface NSString (StringProcessing)
 
 - (BOOL) containsString: (NSString*) substring;
-- (BOOL) containsStringInsensitive: (NSString*) substring;
+- (BOOL) containsString: (NSString*) substring options:(NSStringCompareOptions) mask;
 - (NSArray *) splitByWhitespace;
 
 @end
