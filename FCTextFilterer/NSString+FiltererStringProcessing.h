@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSString (StringProcessing)
+@interface NSString (FiltererStringProcessing)
 
 - (BOOL) containsString: (NSString*) substring;
 - (BOOL) containsString: (NSString*) substring options:(NSStringCompareOptions) mask;

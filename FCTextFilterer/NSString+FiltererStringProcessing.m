@@ -7,7 +7,7 @@
 
 #import "NSString+FiltererStringProcessing.h"
 
-@implementation NSString (StringProcessing)
+@implementation NSString (FiltererStringProcessing)
 
 - (BOOL) containsString: (NSString*) substring options:(NSStringCompareOptions) mask
 {
